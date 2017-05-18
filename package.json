@@ -1,0 +1,134 @@
+{
+  "name": "reactive-stocks",
+  "version": "0.6.1",
+  "description": "Highly customizable stock charts with ReactJS and d3",
+  "main": "src/index.js",
+  "jsnext:main": "src/index.js",
+  "author": {
+    "name": "Mahan"
+  },
+  "homepage": "",
+  "license": "",
+  "scripts": {
+    "clean": "rimraf -rf ./build",
+    "modernizr": "modernizr -c config/modernizr-config.json -d ./build/dist/modernizr.js",
+    "watch": "npm run clean && npm run modernizr && cross-env IP=0.0.0.0 PORT=8080 BABEL_ENV=es webpack-dev-server --config config/webpack.config.js --env watch",
+    "docs": "npm run build:docs && ncp docs/images/ build/images && ncp docs/data/ build/data",
+    "build:dev": "echo 'DEV - BUILD' && cross-env BABEL_ENV=es webpack --config config/webpack.config.js --env dev",
+    "build:prod": "echo 'PROD - BUILD' && cross-env BABEL_ENV=es webpack --config config/webpack.config.js --env prod",
+    "build:docs": "echo 'DOCS - BUILD' && cross-env BABEL_ENV=es webpack --config config/webpack.config.js --env docs",
+    "prebuild": "npm run clean && npm run lint",
+    "build": "npm run modernizr && npm run build:dev && npm run build:prod && npm run docs",
+    "babel:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir build",
+    "babel:es": "cross-env BABEL_ENV=es babel src --out-dir build/es",
+    "release": "npm run clean && npm run build:dev && npm run build:prod && npm run babel:cjs && npm run babel:es && cp README.md build/ && node scripts/release.js",
+    "lint": "eslint --ext .js,.jsx src --fix",
+    "upgrade:patch": "npm version patch",
+    "preversion": "npm run lint",
+    "version": "node scripts/updateVersion.js && git add \"src/index.js\"",
+    "postversion": "git push origin `git rev-parse --abbrev-ref HEAD` && git push origin `git describe`",
+    "npm:publish:next": "npm run release && cd build && npm publish --tag next",
+    "npm:publish:latest": "npm run release && cd build && npm publish",
+    "info": "npm info react-stockcharts",
+    "sourcemap:visualize": "source-map-explorer build/dist/react-stockcharts.min.js build/dist/react-stockcharts.min.js.map"
+  },
+  "dependencies": {
+    "d3-array": "^1.0.2",
+    "d3-collection": "^1.0.2",
+    "d3-force": "^1.0.4",
+    "d3-format": "^1.0.2",
+    "d3-scale": "^1.0.4",
+    "d3-selection": "^1.0.3",
+    "d3-shape": "^1.0.4",
+    "d3-time-format": "^2.0.3",
+    "d3fc-rebind": "^4.1.1",
+    "debug": "^2.6.0",
+    "lodash.flattendeep": "^4.4.0",
+    "save-svg-as-png": "^1.0.3"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "bootstrap": "^3.3.7",
+    "cross-env": "^3.1.4",
+    "css-loader": "^0.26.1",
+    "d3-dsv": "^1.0.3",
+    "es6-promise": "^4.0.5",
+    "eslint": "^3.13.1",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-plugin-flowtype": "^2.29.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^6.9.0",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "^2.26.0",
+    "jest": "^18.1.0",
+    "json-loader": "^0.5.4",
+    "modernizr": "^3.3.1",
+    "ncp": "^2.0.0",
+    "node-sass": "^4.2.0",
+    "prismjs": "^1.6.0",
+    "progress-bar-webpack-plugin": "^1.9.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "remarkable-loader": "^0.2.1",
+    "rimraf": "^2.5.4",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.0-rc.4",
+    "webpack-config-utils": "^2.3.0",
+    "webpack-dev-server": "^2.2.0-rc.0",
+    "whatwg-fetch": "^2.0.1"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      ]
+    ]
+  },
+  "keywords": [
+    "charts",
+    "charting",
+    "stockcharts",
+    "finance",
+    "financechart",
+    "react",
+    "ReactJS",
+    "d3",
+    "react-component",
+    "react-charts",
+    "chart-components",
+    "javascript-finance-chart",
+    "javascript-stockchart",
+    "data-visualization",
+    "data-viz",
+    "d3-finance-chart",
+    "d3-stockchart"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msurgihalli"
+  },
+  "bugs": {
+    "url": ""
+  }
+}
